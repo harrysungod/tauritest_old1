@@ -52,7 +52,7 @@ export default {
         .append("circle")
           .attr("r", 20)
           .style("fill", "#69b3a2");
-
+          
       // Let's list the force we wanna apply on the network
       var simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
           .force("link", d3.forceLink()                               // This force provides links between nodes

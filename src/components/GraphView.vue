@@ -52,6 +52,13 @@ var node = svg
         .attr("r", 10)
         .attr("fill", "green");  
 
+const drag = d3
+    .drag()
+    .on("start", dragstart)
+    .on("drag", dragged);
+
+node.call(drag).on("click", click);
+
 //add tick instructions: 
 simulation.on("tick", tickActions );
 
@@ -82,7 +89,31 @@ function tickActions() {
         .attr("x2", function(d) { return d.target.x; })
         .attr("y2", function(d) { return d.target.y; });
 
-  }                    
+  }  
+  
+  function click(event, d) {
+    console.log("click called")
+    delete d.fx;
+    delete d.fy;
+    //d3.select(this).classed("fixed", false);
+    simulation.alpha(1).restart();
+  }
+
+  function dragstart() {
+    console.log("dragstart called")
+    // d3.select(this).classed("fixed", true);
+  }
+
+  function dragged(event, d) {
+    console.log("dragged called")
+    d.fx = clamp(event.x, 0, width);
+    d.fy = clamp(event.y, 0, height);
+    simulation.alpha(1).restart();
+  }
+
+ function clamp(x, lo, hi) {
+   return x < lo ? lo : x > hi ? hi : x;
+ }
 
     console.log("d3 compute end");
     });
